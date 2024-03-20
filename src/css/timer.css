@@ -40,7 +40,7 @@
 }
 .value {
   margin: auto;
-  font-family: var(--font-family);
+  font-family: font-family;
   font-weight: 400;
   font-size: 40px;
   line-height: 120%;
@@ -48,7 +48,7 @@
   color: #2e2f42;
 }
 .label {
-  font-family: var(--font-family);
+  font-family: font-family;
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
