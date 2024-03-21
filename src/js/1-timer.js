@@ -13,6 +13,9 @@ const refs = {
   seconds: document.querySelector('span[data-seconds]'),
 };
 
+let userSelectedDate = null;
+let currentTime = '';
+
 refs.startBtn.addEventListener('click', onClickStartBtn);
 
 const optionsFlatpicker = {
@@ -30,26 +33,28 @@ const optionsFlatpicker = {
         message: 'Please choose a date in the future',
       });
     } else {
-      currentTime = userSelectedDate.getTime() - Date.now();
       refs.startBtn.disabled = false;
     }
   },
 };
 
-let userSelectedDate = '';
-let currentTime = '';
 flatpickr('#datetime-picker', optionsFlatpicker);
 
 function onClickStartBtn(event) {
-  refs.startBtn.disabled = true;
-  setInterval(() => {
-    let result = convertMs(currentTime);
-    refs.days.textContent = addLeadingZero(result.days);
-    refs.hours.textContent = addLeadingZero(result.hours);
-    refs.minutes.textContent = addLeadingZero(result.minutes);
-    refs.seconds.textContent = addLeadingZero(result.seconds);
-    currentTime -= 1000;
-  }, 1000);
+  if (userSelectedDate && currentTime === '') {
+    refs.startBtn.disabled = true;
+    setInterval(() => {
+      currentTime = userSelectedDate.getTime() - Date.now();
+      let result = convertMs(currentTime);
+      refs.days.textContent = addLeadingZero(result.days);
+      refs.hours.textContent = addLeadingZero(result.hours);
+      refs.minutes.textContent = addLeadingZero(result.minutes);
+      refs.seconds.textContent = addLeadingZero(result.seconds);
+      currentTime -= 1000;
+    }, 1000);
+  } else {
+    refs.startBtn.disabled = true;
+  }
 }
 
 function addLeadingZero(value) {
