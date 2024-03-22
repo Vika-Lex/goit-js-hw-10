@@ -43,14 +43,16 @@ flatpickr('#datetime-picker', optionsFlatpicker);
 function onClickStartBtn(event) {
   if (userSelectedDate && currentTime === '') {
     refs.startBtn.disabled = true;
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       currentTime = userSelectedDate.getTime() - Date.now();
       let result = convertMs(currentTime);
       refs.days.textContent = addLeadingZero(result.days);
       refs.hours.textContent = addLeadingZero(result.hours);
       refs.minutes.textContent = addLeadingZero(result.minutes);
       refs.seconds.textContent = addLeadingZero(result.seconds);
-      currentTime -= 1000;
+      if (currentTime < 1000) {
+        clearInterval(intervalId);
+      }
     }, 1000);
   } else {
     refs.startBtn.disabled = true;
